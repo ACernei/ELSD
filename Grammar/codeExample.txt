@@ -1,0 +1,14 @@
+START TUMCAD
+
+Func Int add1(Int value) {
+pos = value + 1
+Return pos
+}
+
+foreach Int element in array[] {
+
+    if (x == y ){
+    area ( readXLS ("file.xls") )
+    }
+}
+FINISH

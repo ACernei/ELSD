@@ -1,9 +1,0 @@
-{
-Int value223
-Double var22
-Func void coord(  Int var2 ; ) {
-value223 = var22    }
-coord ( var2 = 10 )
-Bool b
-b = True
-}
