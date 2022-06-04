@@ -1,14 +1,22 @@
+import tkinter
 import tkinter as tk
 import tkinter.scrolledtext as scrolledtext
+import Parsing as Pars
 from tkinter import ttk
 from tkinter import *
 import sys
+from tkinter.filedialog import asksaveasfile
 from antlr4 import *
 from gen.TUMCADgrammLexer import TUMCADgrammLexer
 from gen.TUMCADgrammParser import TUMCADgrammParser
 from gen.TUMCADgrammVisitor import TUMCADgrammVisitor
 from ttkthemes import *
 import MyVisit as Visiter
+import functions as funcs
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 window = Tk()
 window.minsize(width=600, height=500)
@@ -24,10 +32,147 @@ widthsc = 32
 #Grid.columnconfigure(window,3,weight=1)
 #Grid.rowconfigure(window, 4,weight=1)
 #Grid.columnconfigure(window,4,weight=1)
+global filewrited
+filewrited = None
+
+def select_file():
+    filetypes = (
+        ('text files', '*.txt'),
+        ('All files', '*.*')
+    )
+
+    filename = fd.askopenfilename(
+        title='Open a file',
+        initialdir='/',
+        filetypes=filetypes)
+
+    showinfo(
+        title='Selected File',
+        message=filename
+    )
+    from treelib import Node, Tree
+    maps = filename.split('/')
+    DSLExplorer.insert(INSERT, '\n')
+    DSLExplorer.insert(INSERT, filename)
+    FileInput.insert('end',open(filename,'r').read())
+    filewrited = filename
+
+def save_button():
+    data = FileInput.get("1.0", 'end-1c')
+    files = [('All Files', '*.*'),
+			('Python Files', '*.py'),
+			('Text Document', '*.txt')]
+    filename = fd.asksaveasfilename(filetypes = files,defaultextension = files)
+    myfile = open(filename, "w+")
+    myfile.write(data)
+    myfile.close()
+
 
 def pressedEnter(name):
     name = UserInput.get("1.0",'end-1c')
-    print('Enter tapped :\n'+name)
+    lines = name.split('\n')
+    words = lines[-1].split('(')
+    letters = list(words[0])
+    if(letters[0].isupper()):
+        try:
+            if (name == "Coord"):
+                funcs.makeCoord(1, 2)
+
+                # LLA TO ECEF
+                # ex : LLA_ECEF(37.4001100556,  -79.1539111111,  208.38)
+            if (words[0] == "LLA_ECEF"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.lla_to_ecef_2(numbers[0], numbers[1], numbers[2]))
+
+                # ECEF TO LLA
+                # ex : ECEF_LLA(652954.1006, 4774619.7919, -2217647.7937)
+            if (words[0] == "ECEF_LLA"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.ecef_to_lla(numbers[0], numbers[1], numbers[2]))
+
+                # LLA TO ENU
+                # ex : LLA_ENU(37.4001100556,  -79.1539111111,  208.38)
+            if (words[0] == "LLA_ENU"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.lla_to_enu(numbers[0], numbers[1], numbers[2]))
+
+                # ENU TO LLA
+                # ex : ENU_LLA(-7134.75719598, -4556.32151385,  2852.39042395)
+            if (words[0] == "ENU_LLA"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.enu_to_lla(numbers[0], numbers[1], numbers[2]))
+
+                # LLA TO AER
+                # ex : LLA_AER(37.4001100556,  -79.1539111111,  208.38)
+            if (words[0] == "LLA_AER"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.lla_to_aer(numbers[0], numbers[1], numbers[2]))
+
+                # AER TO LLA
+                # ex : AER_LLA(12,22,424)
+            if (words[0] == "AER_LLA"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(',')
+                if len(numbers) > 3:
+                    raise Exception('We need 3 args not ' + str(len(numbers)))
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.aer_to_lla(numbers[0], numbers[1], numbers[2]))
+
+                # Ploting
+                # ex : Plot(1,1,1)
+            if (words[0] == "Plot"):
+                for widget in ToolBox.winfo_children():
+                    widget.destroy()
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(';')
+                UserInput.insert(tk.INSERT, '\n Was Done \n')
+                Plot = FigureCanvasTkAgg(funcs.plot(numbers), ToolBox)
+                Plot.draw()
+                Plot.get_tk_widget().pack(expand=True, fill=BOTH, side=BOTTOM)
+
+                # Area of  any polygon
+                # ex : Area()
+            if (words[0] == "Area"):
+                nmrs = words[1].split(')')
+                numbers = nmrs[0].split(';')
+                UserInput.insert(tk.INSERT, '\n')
+                UserInput.insert(tk.INSERT, funcs.compute_3D_polygon_area(numbers))
+
+        except Exception as error:
+            UserInput.insert(tk.INSERT, " \n The error is " + repr(error) + "\n")
+        except:
+            UserInput.insert(tk.INSERT, '\n Eroare la indicarea coordonatelor incercati repetat \n')
+        print('Enter tapped :\n' + name)
+    else:
+        text = lines[-1]
+        try:
+            result = eval(text)
+            print(f'Operation:\n{text}\nResult:\n{result}')
+            UserInput.insert('end', '\n' + str(result) + '\n')
+        except:
+            print(f'Operation:\n{text}\nResult:\nError')
+            UserInput.insert('end', '\nError\n')
+
 
 def compileCode():
     data = FileInput.get("1.0",'end-1c')
@@ -39,7 +184,9 @@ def compileCode():
     tree = parser.expr()
     visitor = Visiter()
     output = visitor.visit(tree)
-    print(output)
+    lines = output.split('\n')
+    for indexline in lines:
+        UserInput.insert(tk.INSERT , str(Pars.parse(indexline)))
 
 
 window.title("Python GUI App")
@@ -63,11 +210,11 @@ Buttons_Frm = ttk.Frame(frm, padding=5)
 Buttons_Frm.pack()
 #Buttons_Frm.grid()
 
-Add_file = Button(Buttons_Frm, text='File')
+Add_file = Button(Buttons_Frm, text='File', command = select_file)
 Add_file.pack(side=LEFT)
 #Add_file.grid(column=0,row=0)
 
-Save_file = Button(Buttons_Frm, text='Save File')
+Save_file = Button(Buttons_Frm, text='Save File', command = save_button)
 Save_file.pack(side=LEFT)
 #Save_file.grid(column=0,row=0)
 
@@ -78,9 +225,9 @@ Compile.pack(side=LEFT)
 Tools_Frm = ttk.Frame(frm, padding=5)
 Tools_Frm.pack(side=LEFT)
 
-ToolBox = scrolledtext.ScrolledText(Tools_Frm, height = 15, width = widthsc)
+ToolBox = tkinter.LabelFrame(Tools_Frm, height = 15, width = widthsc,text='Plot')
 #ToolBox.grid(column=0, row=1,rowspan=2)
-ToolBox.insert(INSERT,'ToolBox')
+#ToolBox.insert(INSERT,'Ploting')
 ToolBox.pack(expand=True, fill=BOTH, side=BOTTOM)
 #ToolBoxlabel = Label(frm, height = 3, width = 32,text='ToolBox').grid(column=0, row=0,)
 
