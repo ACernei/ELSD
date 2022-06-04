@@ -14,9 +14,14 @@ loc  Assign_op  expr
 | 'Foreach'  expr  'in'  expr  '{'  statement+|'End'|'Continue'  '}'
 | 'While'  '('  expr  ')'  '{'  statement+ |'End'  '}'
 | 'Coord'  '('  expr+  ')'  '{'  statement  '}'
+| 'LLA_ECEF'  '('  expr+  ')'
+| 'ECEF_LLA'  '('  expr+  ')'
+| 'LLA_ENU'  '('  expr+  ')'
+| 'ENU_LLA'  '('  expr+  ')'
+| 'LLA_AER'  '('  expr+  ')'
+| 'AER_LLA'  '('  expr+  ')'
 | 'Plot'  '('  expr+  ')'
 | 'Area'   '('  expr+  ')'
-| 'CreateBasement'  '('  expr+  ')'
 ;
 
 method_call:  name  '('  statement*  ')' ;
