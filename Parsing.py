@@ -242,18 +242,43 @@ class Interpreter(NodeVisitor):
 
 import functions as funcs
 import tkinter as tk
+from antlr4.error.ErrorListener import ErrorListener
+
+
+class MyErrorListener(ErrorListener):
+
+    def __init__(self):
+        super(MyErrorListener, self).__init__()
+
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        raise Exception("Syntax Error check all your syntax")
+
+    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
+        raise Exception("Oh no is an ambiguity ")
+
+    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
+        raise Exception(" You don't know that is a Attempting FuLL Context???")
+
+    def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
+        raise Exception("Is Context Sensitive")
+
 
 def parse(text):
-    if len(text) > 1:
-        # input = FileStream(text[1])  # read the first argument as a filestream
-        input = text
-        lexer = TUMCADgrammLexer(InputStream(text))  # call your lexer
-        stream = CommonTokenStream(lexer)
-        parser = TUMCADgrammParser(stream)
-        tree = parser.program()  # start from the parser rule, however should be changed to your entry rule for your specific grammar.
-        printer = TUMCADgrammListener()
-        walker = ParseTreeWalker()
-        walker.walk(printer, tree)
-    else:
-        print('Error : Expected a valid file')
+    try:
+        if len(text) > 1:
+            # input = FileStream(text[1])
+            lexer = TUMCADgrammLexer(InputStream(text))
+
+            stream = CommonTokenStream(lexer)
+            parser = TUMCADgrammParser(stream)
+            parser.addErrorListener(MyErrorListener())
+            tree = parser.program()
+            printer = TUMCADgrammListener()
+            walker = ParseTreeWalker()
+
+            return "Successfull compiled"
+        else:
+            return 'Error : Expected a valid file'
+    except Exception as error:
+        return repr(error)
 

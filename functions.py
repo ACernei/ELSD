@@ -95,7 +95,7 @@ def lla_to_aer(lat, lon, alt):
     lat0 = 46.017
     lon0 = 7.750
     h0 = 1673
-    return str(pmap.geodetic2aer(lat, lon, alt, lat0, lon0, 0))
+    return str(pmap.geodetic2aer(lat, lon, alt, lat0, lon0, 0, None, False))
 
 def aer_to_lla(az,el,slantrange):
     lat0 = 46.017
