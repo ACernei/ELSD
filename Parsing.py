@@ -1,4 +1,10 @@
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import antlr4
+from antlr4 import *
+from gen.TUMCADgrammLexer import TUMCADgrammLexer
+from gen.TUMCADgrammListener import TUMCADgrammListener
+from gen.TUMCADgrammParser import TUMCADgrammParser
+import sys
 
 INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, FUNC, LBPAREN, RBPAREN, CHAR, BOOLEAN, STRING, BOOL, VAR, OPERATORS, TYPE= (
     'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', '(', ')', 'EOF', 'FUNC', '{', '}', 'CHAR', 'BOOLEAN', 'STRING', 'BOOL', 'VAR', 'OPERATORS', 'TYPE'
@@ -236,106 +242,18 @@ class Interpreter(NodeVisitor):
 
 import functions as funcs
 import tkinter as tk
-import main as gl
 
 def parse(text):
-    words = text.split('(')
-    letters = list(words[0])
-    if (letters[0].isupper()):
-        try:
-            # LLA TO ECEF
-            # ex : LLA_ECEF(37.4001100556,  -79.1539111111,  208.38)
-            if (words[0] == "LLA_ECEF"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.lla_to_ecef_2(numbers[0], numbers[1], numbers[2]))
-
-                # ECEF TO LLA
-                # ex : ECEF_LLA(652954.1006, 4774619.7919, -2217647.7937)
-            if (words[0] == "ECEF_LLA"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.ecef_to_lla(numbers[0], numbers[1], numbers[2]))
-
-                # LLA TO ENU
-                # ex : LLA_ENU(37.4001100556,  -79.1539111111,  208.38)
-            if (words[0] == "LLA_ENU"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.lla_to_enu(numbers[0], numbers[1], numbers[2]))
-
-                # ENU TO LLA
-                # ex : ENU_LLA(-7134.75719598, -4556.32151385,  2852.39042395)
-            if (words[0] == "ENU_LLA"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.enu_to_lla(numbers[0], numbers[1], numbers[2]))
-
-                # LLA TO AER
-                # ex : LLA_AER(37.4001100556,  -79.1539111111,  208.38)
-            if (words[0] == "LLA_AER"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.lla_to_aer(numbers[0], numbers[1], numbers[2]))
-
-                # AER TO LLA
-                # ex : AER_LLA(12,22,424)
-            if (words[0] == "AER_LLA"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(',')
-                if len(numbers) > 3:
-                    raise Exception('We need 3 args not ' + str(len(numbers)))
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.aer_to_lla(numbers[0], numbers[1], numbers[2]))
-
-                # Ploting
-                # ex : Plot(1,1,1)
-            if (words[0] == "Plot"):
-                for widget in gl.ToolBox.winfo_children():
-                    widget.destroy()
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(';')
-                gl.UserInput.insert(tk.INSERT, '\n Was Done \n')
-                Plot = FigureCanvasTkAgg(funcs.plot(numbers), gl.ToolBox)
-                Plot.draw()
-                Plot.get_tk_widget().pack(expand=True, fill=BOTH, side=BOTTOM)
-
-                # Area of  any polygon
-                # ex : Area()
-            if (words[0] == "Area"):
-                nmrs = words[1].split(')')
-                numbers = nmrs[0].split(';')
-                gl.UserInput.insert(tk.INSERT, '\n')
-                gl.UserInput.insert(tk.INSERT, funcs.compute_3D_polygon_area(numbers))
-
-        except Exception as error:
-            gl.UserInput.insert(tk.INSERT, " \n The error is " + repr(error) + "\n")
-        except:
-            gl.UserInput.insert(tk.INSERT, '\n Eroare la indicarea coordonatelor incercati repetat \n')
+    if len(text) > 1:
+        # input = FileStream(text[1])  # read the first argument as a filestream
+        input = text
+        lexer = TUMCADgrammLexer(InputStream(text))  # call your lexer
+        stream = CommonTokenStream(lexer)
+        parser = TUMCADgrammParser(stream)
+        tree = parser.program()  # start from the parser rule, however should be changed to your entry rule for your specific grammar.
+        printer = TUMCADgrammListener()
+        walker = ParseTreeWalker()
+        walker.walk(printer, tree)
     else:
-        text = str(text)
-        lexer = Lexer(text)
-        parser = Parser(lexer)
-        interpreter = Interpreter(parser)
-        result = interpreter.interpret()
-        print(result)
-        return result
+        print('Error : Expected a valid file')
 
-
-if __name__ == '__main__':
-    parse()

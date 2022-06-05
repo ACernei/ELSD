@@ -73,6 +73,8 @@ def pressedEnter(name):
     lines = name.split('\n')
     words = lines[-1].split('(')
     letters = list(words[0])
+    if(len(letters) == 0):
+        letters = "1"
     if(letters[0].isupper()):
         try:
             if (name == "Coord"):
@@ -177,6 +179,7 @@ def pressedEnter(name):
 def compileCode():
     data = FileInput.get("1.0",'end-1c')
     print('Enter tapped :\n'+data)
+    """
     lexer = TUMCADgrammLexer(data)
     stream = CommonTokenStream(lexer)
     # parser
@@ -186,7 +189,9 @@ def compileCode():
     output = visitor.visit(tree)
     lines = output.split('\n')
     for indexline in lines:
-        UserInput.insert(tk.INSERT , str(Pars.parse(indexline)))
+    """
+    UserInput.insert(tk.INSERT , "\n")
+    UserInput.insert(tk.INSERT , str(Pars.parse(data)))
 
 
 window.title("Python GUI App")
