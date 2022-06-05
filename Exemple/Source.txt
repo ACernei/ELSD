@@ -1,0 +1,9 @@
+{
+ Func  Int  func ( Int v222; ){
+ Double var22 
+ var22 =  224
+ Bool b = False
+       b = True
+ var22 +=24
+ } 
+}
