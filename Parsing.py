@@ -253,14 +253,14 @@ class MyErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         raise Exception("Syntax Error check all your syntax")
 
-    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
-        raise Exception("Oh no is an ambiguity ")
+#    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
+#        raise Exception("Oh no is an ambiguity ")
 
-    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
-        raise Exception(" You don't know that is a Attempting FuLL Context???")
+#    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
+#        raise Exception(" You don't know that is a Attempting FuLL Context???")
 
-    def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
-        raise Exception("Is Context Sensitive")
+#   def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
+#        raise Exception("Is Context Sensitive")
 
 
 def parse(text):

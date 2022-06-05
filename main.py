@@ -36,6 +36,8 @@ global filewrited
 filewrited = None
 
 def select_file():
+    DSLExplorer.delete("3.0","end")
+    FileInput.delete("1.0","end")
     filetypes = (
         ('text files', '*.txt'),
         ('All files', '*.*')
@@ -238,7 +240,7 @@ ToolBox.pack(expand=True, fill=BOTH, side=BOTTOM)
 
 DSLExplorer = scrolledtext.ScrolledText(Tools_Frm, height = 15, width = widthsc)
 #DSLExplorer.grid(column=0,row=3, rowspan=2)
-DSLExplorer.insert(INSERT,'DSLExplorer')
+DSLExplorer.insert(INSERT,'DSLExplorer \n')
 DSLExplorer.pack(expand=True, fill=BOTH, side=BOTTOM)
 
 User_Frm = ttk.Frame(frm, padding=5)
