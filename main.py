@@ -74,7 +74,7 @@ def pressedEnter(name):
     words = lines[-1].split('(')
     letters = list(words[0])
     if(len(letters) == 0):
-        letters = "1"
+        letters = " "
     if(letters[0].isupper()):
         try:
             if (name == "Coord"):
@@ -165,7 +165,7 @@ def pressedEnter(name):
         except:
             UserInput.insert(tk.INSERT, '\n Eroare la indicarea coordonatelor incercati repetat \n')
         print('Enter tapped :\n' + name)
-    else:
+    elif lines[-1] != '':
         text = lines[-1]
         try:
             result = eval(text)
