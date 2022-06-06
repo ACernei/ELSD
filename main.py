@@ -30,7 +30,9 @@ filewrited = None
 
 
 def select_file():
+    DSLExplorer.config(state='normal')
     DSLExplorer.delete("3.0", "end")
+    DSLExplorer.config(state='disabled')
     FileInput.delete("1.0", "end")
     filetypes = (
         ('text files', '*.txt'),
