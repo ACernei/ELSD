@@ -1,0 +1,4 @@
+__pycache__/
+.vscode/
+.idea/
+gen/__pycache__/

@@ -1,4 +1,4 @@
-# Generated from C:/Users/KATCO/PycharmProjects/PBL\TUMCADgramm.g4 by ANTLR 4.9.2
+# Generated from TUMCADgramm.g4 by ANTLR 4.9.2
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .TUMCADgrammParser import TUMCADgrammParser
@@ -21,6 +21,16 @@ class TUMCADgrammVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TUMCADgrammParser#statement.
     def visitStatement(self, ctx:TUMCADgrammParser.StatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TUMCADgrammParser#multiple_values_last.
+    def visitMultiple_values_last(self, ctx:TUMCADgrammParser.Multiple_values_lastContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TUMCADgrammParser#multiple_values.
+    def visitMultiple_values(self, ctx:TUMCADgrammParser.Multiple_valuesContext):
         return self.visitChildren(ctx)
 
 

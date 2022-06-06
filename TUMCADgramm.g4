@@ -14,16 +14,18 @@ loc  Assign_op  expr
 | 'Foreach'  expr  'in'  expr  '{'  statement+|'End'|'Continue'  '}'
 | 'While'  '('  expr  ')'  '{'  statement+ |'End'  '}'
 | 'Coord'  '('  expr+  ')'  '{'  statement  '}'
-| 'LLA_ECEF'  '('  expr+  ')'
-| 'ECEF_LLA'  '('  expr+  ')'
-| 'LLA_ENU'  '('  expr+  ')'
-| 'ENU_LLA'  '('  expr+  ')'
-| 'LLA_AER'  '('  expr+  ')'
-| 'AER_LLA'  '('  expr+  ')'
-| 'Plot'  '('  expr+  ')'
-| 'Area'   '('  expr+  ')'
+| 'LLA_ECEF'  '('  multiple_values_last  ')'
+| 'ECEF_LLA'  '('  multiple_values_last  ')'
+| 'LLA_ENU'  '('  multiple_values_last  ')'
+| 'ENU_LLA'  '('  multiple_values_last  ')'
+| 'LLA_AER'  '('  multiple_values_last  ')'
+| 'AER_LLA'  '('  multiple_values_last  ')'
+| 'Plot'  '('  multiple_values* multiple_values_last ')'
+| 'Area'   '('  multiple_values* multiple_values_last  ')'
 ;
 
+multiple_values_last: expr ',' expr ',' expr;
+multiple_values: multiple_values_last ';';
 method_call:  name  '('  statement*  ')' ;
 
 name: alpha_string+;
@@ -59,7 +61,7 @@ param_in: var_declaration ( ',' name)*  ';'+ WS*
 var_declaration:  Type  name ;
 
 expr: loc
-|method_call
+| method_call
 | literal
 | expr bin_op expr
 |'-' expr

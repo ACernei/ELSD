@@ -1,12 +1,16 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sys
+import tkinter as tk
+
 import antlr4
 from antlr4 import *
+from antlr4.error.ErrorListener import ErrorListener
+
+import functions as funcs
 from gen.TUMCADgrammLexer import TUMCADgrammLexer
 from gen.TUMCADgrammListener import TUMCADgrammListener
 from gen.TUMCADgrammParser import TUMCADgrammParser
-import sys
 
-INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, FUNC, LBPAREN, RBPAREN, CHAR, BOOLEAN, STRING, BOOL, VAR, OPERATORS, TYPE= (
+INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF, FUNC, LBPAREN, RBPAREN, CHAR, BOOLEAN, STRING, BOOL, VAR, OPERATORS, TYPE = (
     'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', '(', ')', 'EOF', 'FUNC', '{', '}', 'CHAR', 'BOOLEAN', 'STRING', 'BOOL', 'VAR', 'OPERATORS', 'TYPE'
 )
 
@@ -92,10 +96,8 @@ class Lexer(object):
                 elif self.char() == "BOOL True":
                     return Token(BOOL, "BOOL True")
                 elif self.char()[0].isupper():
-                    return Token(TYPE,self.char())
+                    return Token(TYPE, self.char())
                 return Token(CHAR, self.char())
-
-
 
             if self.current_char == '+':
                 self.advance()
@@ -128,8 +130,6 @@ class Lexer(object):
             if self.current_char == '}':
                 self.advance()
                 return Token(RBPAREN, '}')
-
-
 
             self.error()
 
@@ -209,6 +209,7 @@ class Parser(object):
     def parse(self):
         return self.expr()
 
+
 class NodeVisitor(object):
     def visit(self, node):
         method_name = 'visit_' + type(node).__name__
@@ -240,9 +241,10 @@ class Interpreter(NodeVisitor):
         tree = self.parser.parse()
         return self.visit(tree)
 
-import functions as funcs
-import tkinter as tk
-from antlr4.error.ErrorListener import ErrorListener
+
+class SyntaxException(Exception):
+    def __repr__(self):
+        return self.args[0]
 
 
 class MyErrorListener(ErrorListener):
@@ -251,7 +253,9 @@ class MyErrorListener(ErrorListener):
         super(MyErrorListener, self).__init__()
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        raise Exception("Syntax Error check all your syntax")
+        raise SyntaxException(
+            f' Syntax Error\n Line: {line} Column: {column}\n {msg}')
+
 
 #    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
 #        raise Exception("Oh no is an ambiguity ")
@@ -276,9 +280,8 @@ def parse(text):
             printer = TUMCADgrammListener()
             walker = ParseTreeWalker()
 
-            return "Successfull compiled"
+            return " Successfully compiled"
         else:
-            return 'Error : Expected a valid file'
+            return ' Error : Expected a valid file'
     except Exception as error:
         return repr(error)
-

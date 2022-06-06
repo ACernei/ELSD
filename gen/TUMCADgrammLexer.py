@@ -1,4 +1,4 @@
-# Generated from C:/Users/KATCO/PycharmProjects/PBL\TUMCADgramm.g4 by ANTLR 4.9.2
+# Generated from TUMCADgramm.g4 by ANTLR 4.9.2
 from antlr4 import *
 from io import StringIO
 import sys
@@ -29,8 +29,8 @@ def serializedATN():
         buf.write("\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23")
         buf.write("\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25")
         buf.write("\3\25\3\25\3\26\3\26\3\26\3\26\3\26\3\27\3\27\3\30\3\30")
-        buf.write("\3\31\3\31\3\32\3\32\3\33\3\33\3\33\3\33\3\33\3\34\3\34")
-        buf.write("\3\34\3\34\3\34\3\35\3\35\3\36\3\36\3\37\3\37\3 \3 \3")
+        buf.write("\3\31\3\31\3\32\3\32\3\33\3\33\3\34\3\34\3\35\3\35\3\35")
+        buf.write("\3\35\3\35\3\36\3\36\3\36\3\36\3\36\3\37\3\37\3 \3 \3")
         buf.write("!\3!\3\"\3\"\3#\3#\3#\3#\3#\3#\3#\3#\3#\5#\u00f4\n#\3")
         buf.write("$\3$\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3")
         buf.write("%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\5%\u0116\n%\3")
@@ -56,8 +56,8 @@ def serializedATN():
         buf.write("\2\35\u0090\3\2\2\2\37\u0099\3\2\2\2!\u00a2\3\2\2\2#\u00aa")
         buf.write("\3\2\2\2%\u00b2\3\2\2\2\'\u00ba\3\2\2\2)\u00c2\3\2\2\2")
         buf.write("+\u00c7\3\2\2\2-\u00cc\3\2\2\2/\u00ce\3\2\2\2\61\u00d0")
-        buf.write("\3\2\2\2\63\u00d2\3\2\2\2\65\u00d4\3\2\2\2\67\u00d9\3")
-        buf.write("\2\2\29\u00de\3\2\2\2;\u00e0\3\2\2\2=\u00e2\3\2\2\2?\u00e4")
+        buf.write("\3\2\2\2\63\u00d2\3\2\2\2\65\u00d4\3\2\2\2\67\u00d6\3")
+        buf.write("\2\2\29\u00d8\3\2\2\2;\u00dd\3\2\2\2=\u00e2\3\2\2\2?\u00e4")
         buf.write("\3\2\2\2A\u00e6\3\2\2\2C\u00e8\3\2\2\2E\u00f3\3\2\2\2")
         buf.write("G\u00f5\3\2\2\2I\u0115\3\2\2\2K\u0117\3\2\2\2M\u0122\3")
         buf.write("\2\2\2O\u012d\3\2\2\2Q\u0134\3\2\2\2S\u0136\3\2\2\2UV")
@@ -94,16 +94,16 @@ def serializedATN():
         buf.write("\u00c3\7R\2\2\u00c3\u00c4\7n\2\2\u00c4\u00c5\7q\2\2\u00c5")
         buf.write("\u00c6\7v\2\2\u00c6*\3\2\2\2\u00c7\u00c8\7C\2\2\u00c8")
         buf.write("\u00c9\7t\2\2\u00c9\u00ca\7g\2\2\u00ca\u00cb\7c\2\2\u00cb")
-        buf.write(",\3\2\2\2\u00cc\u00cd\7]\2\2\u00cd.\3\2\2\2\u00ce\u00cf")
-        buf.write("\7_\2\2\u00cf\60\3\2\2\2\u00d0\u00d1\7\60\2\2\u00d1\62")
-        buf.write("\3\2\2\2\u00d2\u00d3\7)\2\2\u00d3\64\3\2\2\2\u00d4\u00d5")
-        buf.write("\7H\2\2\u00d5\u00d6\7w\2\2\u00d6\u00d7\7p\2\2\u00d7\u00d8")
-        buf.write("\7e\2\2\u00d8\66\3\2\2\2\u00d9\u00da\7x\2\2\u00da\u00db")
-        buf.write("\7q\2\2\u00db\u00dc\7k\2\2\u00dc\u00dd\7f\2\2\u00dd8\3")
-        buf.write("\2\2\2\u00de\u00df\7.\2\2\u00df:\3\2\2\2\u00e0\u00e1\7")
-        buf.write("=\2\2\u00e1<\3\2\2\2\u00e2\u00e3\7/\2\2\u00e3>\3\2\2\2")
-        buf.write("\u00e4\u00e5\7#\2\2\u00e5@\3\2\2\2\u00e6\u00e7\4\62;\2")
-        buf.write("\u00e7B\3\2\2\2\u00e8\u00e9\4c|\2\u00e9D\3\2\2\2\u00ea")
+        buf.write(",\3\2\2\2\u00cc\u00cd\7.\2\2\u00cd.\3\2\2\2\u00ce\u00cf")
+        buf.write("\7=\2\2\u00cf\60\3\2\2\2\u00d0\u00d1\7]\2\2\u00d1\62\3")
+        buf.write("\2\2\2\u00d2\u00d3\7_\2\2\u00d3\64\3\2\2\2\u00d4\u00d5")
+        buf.write("\7\60\2\2\u00d5\66\3\2\2\2\u00d6\u00d7\7)\2\2\u00d78\3")
+        buf.write("\2\2\2\u00d8\u00d9\7H\2\2\u00d9\u00da\7w\2\2\u00da\u00db")
+        buf.write("\7p\2\2\u00db\u00dc\7e\2\2\u00dc:\3\2\2\2\u00dd\u00de")
+        buf.write("\7x\2\2\u00de\u00df\7q\2\2\u00df\u00e0\7k\2\2\u00e0\u00e1")
+        buf.write("\7f\2\2\u00e1<\3\2\2\2\u00e2\u00e3\7/\2\2\u00e3>\3\2\2")
+        buf.write("\2\u00e4\u00e5\7#\2\2\u00e5@\3\2\2\2\u00e6\u00e7\4\62")
+        buf.write(";\2\u00e7B\3\2\2\2\u00e8\u00e9\4c|\2\u00e9D\3\2\2\2\u00ea")
         buf.write("\u00eb\7V\2\2\u00eb\u00ec\7t\2\2\u00ec\u00ed\7w\2\2\u00ed")
         buf.write("\u00f4\7g\2\2\u00ee\u00ef\7H\2\2\u00ef\u00f0\7c\2\2\u00f0")
         buf.write("\u00f1\7n\2\2\u00f1\u00f2\7u\2\2\u00f2\u00f4\7g\2\2\u00f3")
@@ -197,8 +197,8 @@ class TUMCADgrammLexer(Lexer):
             "'{'", "'Return'", "'}'", "'If'", "'('", "')'", "'else'", "'Foreach'", 
             "'in'", "'End'", "'Continue'", "'While'", "'Coord'", "'LLA_ECEF'", 
             "'ECEF_LLA'", "'LLA_ENU'", "'ENU_LLA'", "'LLA_AER'", "'AER_LLA'", 
-            "'Plot'", "'Area'", "'['", "']'", "'.'", "'''", "'Func'", "'void'", 
-            "','", "';'", "'-'", "'!'" ]
+            "'Plot'", "'Area'", "','", "';'", "'['", "']'", "'.'", "'''", 
+            "'Func'", "'void'", "'-'", "'!'" ]
 
     symbolicNames = [ "<INVALID>",
             "Digit", "Alpha", "Bool_lit", "Char", "Type", "Arith_op", "Comp_op", 
